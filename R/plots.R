@@ -75,29 +75,30 @@ make_scatter_plot <- function() {
 
 #' Create a Time Series of Obesity Rates
 #'
-#' @param .region The region input callback (character vector)
 #' @param .year The year input callback (integer vector)
 #' @param .year_range The year range input callback (integer vector)
-#' @param .income The income group callback (character vector)
 #' @param .sex The sex group callback (scalar character)
 #' @param .highlight_country The countries we want to highlight (character vector)
 #'
 #' @return A plotly object.
 #' @export
-make_ts_plot <- function(.year, .year_range = NULL, .sex = NULL, .highlight_country) {
-  
+make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = 'Canada', .year_range = list(1975, 2016)) {
+
+  all_years <- seq(.year_range[[1]], .year_range[[2]])
   # Generate a filtering string
-  fltr <- list(year = .year_range, sex = remap_sex(.sex))
+  fltr <- list(year = all_years, sex = remap_sex(.sex))
   
   # Subset and aggregate data
   df <- make_rate_data(c("country", "year"), fltr)
   
   # Get data for highlighted country
   highlight <- df %>% 
-    filter(country %in% .highlight_country)
+    filter(country %in% .highlight_country) %>% 
+    mutate(across(country, factor, levels = .highlight_country))
+    
   
   # Create subtitle
-  sub <- paste0(as.character(min(.year_range)), "-", as.character(max(.year_range)))
+  sub <- paste0(as.character(min(all_years)), "-", as.character(max(all_years)))
   
   # Make time series plot
   ts_plot <- df %>% 
@@ -106,8 +107,8 @@ make_ts_plot <- function(.year, .year_range = NULL, .sex = NULL, .highlight_coun
       aes(x = year,
           y = obese_rate,
           group = country) +
-    geom_line(color = 'grey80', alpha = 0.5) + # Add lines
-    geom_point(data = highlight %>% filter(year == max(.year_range)), # Add end points
+    geom_line(aes(text = paste("Country:", country)), color = 'grey80', alpha = 0.5) + # Add lines
+    geom_point(data = highlight %>% filter(year == max(all_years)), # Add end points
                aes(x = as.integer(year),
                    y = obese_rate),
                size = 1,
@@ -117,18 +118,19 @@ make_ts_plot <- function(.year, .year_range = NULL, .sex = NULL, .highlight_coun
     geom_line(data = highlight, # Add highlighted countries
               aes(x = year,
                   y = obese_rate,
-                  color = country)) +
+                  color = country,
+                  text = paste("Country:", country))) +
     geom_vline(xintercept=.year, linetype="dotted") + # Add vertical line
-    scale_x_continuous(limits = c(min(.year_range), max(.year_range)), 
+    scale_x_continuous(limits = c(min(all_years), max(all_years)), 
                        expand = c(0, 0),
                        breaks = seq(1975, 2020, by=5)) +
     scale_y_continuous(expand = c(0, 0)) +
     labs(x = "Year", 
          y = "Obesity Rate", 
          color = "Country",
-         title="World Obesity",
+         title=paste0("World Obesity (", sub, ")"),
          subtitle=sub) +
     theme_bw()
   
-  ggplotly(ts_plot, tooltip = c('country', 'obese_rate'))
+  ggplotly(ts_plot, tooltip = c("text", "obese_rate"))
 }
