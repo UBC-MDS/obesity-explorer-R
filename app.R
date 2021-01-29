@@ -20,7 +20,7 @@ ob <- readr::read_csv(datapath) %>%
   filter(region != "Aggregates")
 cypath <- here::here("data", "processed", "country-ids.csv")
 cydict <- readr::read_csv(cypath)
-a <- as.character(c(1975:2018))
+a <- as.character(c(1975:2016))
 
 # Load CSS Styles
 css <- custom_css()
@@ -62,7 +62,7 @@ app$layout(
                 step = 1,
                 value = 2016,
                 included = FALSE,
-                marks = setNames(lapply(a[seq(1, length(a), 5)], function(x) x), a[seq(1, length(a), 5)])
+                marks = as.list(set_names((a[seq(1, length(a), 5)])))
               ),
               htmlBr(),
               dbcLabel("Filter Region:"),
