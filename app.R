@@ -197,5 +197,16 @@ app$callback(
   partial(make_choropleth_plot, cydict = cydict)
 )
 
+app$callback(
+  output("ts_plot", "figure"),
+  list(
+    input("input_year", "value"),
+    input("input_year_range", "value"),
+    input("input_sex", "value"),
+    input("input_highlight_country", "value")
+  ),
+  make_ts_plot
+)
+
 
 app$run_server(debug = T)
