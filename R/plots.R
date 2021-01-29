@@ -65,12 +65,36 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 }
 
 #' Create a Scatter Map of Obesity Rates vs. Other Variables
-#'
-#'
+#' @param .region The region input callback (character vector)
+#' @param .year The year input callback (integer vector)
+#' @param .income The income group callback (character vector)
+#' @param .sex The sex group callback (scalar character)
+#' @param .regressor The regressor to be used in the scatter plot (character vector)
+#' @param .grouper The attribute to be used for grouping the data in the scatter plot (character vector)
 #' @return A plotly object.
 #' @export
-make_scatter_plot <- function() {
-  NULL
+make_scatter_plot <- function(.region=NULL, .year=NULL, .income = NULL, .sex=NULL, .regressor="smoke", .grouper="none") {
+  # Generate a filtering string
+  fltr <- list(region = .region, year = .year, income = .income,
+               sex = remap_sex(.sex))
+  
+  # Subset and aggregate data
+  df <- make_rate_data(c(.grouper, "country"), fltr, vals = c(.regressor, "obese"))
+  
+  # Plot
+  p <- df %>% ggplot(
+    aes(x = !!sym(str_glue("{.regressor}_rate")),
+        y = obese_rate,
+        color = !!sym(.grouper))) +
+    geom_point() +
+    geom_smooth(se = FALSE, method = "lm") + 
+    labs(
+      title = str_glue("Obesity Rate vs {.regressor}"), 
+      x = str_glue("{.regressor}"),
+      y = "Obesity Rate"
+      
+    )
+  ggplotly(p)
 }
 
 #' Create a Time Series of Obesity Rates
