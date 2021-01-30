@@ -30,4 +30,4 @@ Rscript app.R
 The URL path will be printed to screen, which can be copy-pasted into a browser. To exit the app, hit <kbd>Ctrl</kbd> + <kbd>C</kbd> in the terminal.
 
 This app is written in R using the Dash framework, but the authors maintain a [parallel implementation](https://github.com/UBC-MDS/obesity-explorer) for Python. 
-Details of the author's vision can be found in the [proposal document](https://github.com/UBC-MDS/obesity-explorer-r/blob/main/doc/proposal.md).
+Details of the author's vision can be found in the [proposal document](doc/proposal.md).
