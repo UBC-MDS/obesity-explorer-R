@@ -87,9 +87,7 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
       value = "percent",
       title = "<b> Obesity Rate </b>",
       ticksuffix = "%"
-    ) # %>%
-  # layout(legend=list(title=list(text='<b> Obesity Rate </b>')))
-  # layout(legend=list(barnorm = "percent"))
+    )
 }
 
 #' Create a Scatter Map of Obesity Rates vs. Other Variables
