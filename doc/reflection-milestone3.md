@@ -7,7 +7,7 @@ The group has been able to deploy an interactive app built using dash in R. Curr
 Our experience using R was an overall positive one. It was an easier transition to develop a skeleton which we prioritized first since we had a predefined layout set up from the python app. It allowed for a smoother git experience with fewer merge conflicts since the layout was already in place. We also added modularization and other associated imports to keep development tidy. 
 
 ## Feedback:
-We agreed with the TA feedback and all of it was incorporated in Milestone 2 and 3. The additional feedback from Joel around tabs and positioning local sliders next to their appropriate graphs was also completed.
+We agreed with the [TA feedback](https://github.com/UBC-MDS/obesity-explorer/issues/40) and all of it was incorporated in Milestone 2 and 3. The additional feedback from Joel around tabs and positioning local sliders next to their appropriate graphs was also completed.
 
 ## Fixed issues from Milestone 2:
 - Missing data issue (map and scatter plot) 
