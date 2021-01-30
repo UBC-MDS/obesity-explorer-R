@@ -21,18 +21,19 @@ We agreed with the [TA feedback](https://github.com/UBC-MDS/obesity-explorer/iss
 - Move grouper and regressor below scatter plot 
 
 ## Known bugs at this stage of development:
-- Addressing missing countries (South Sudan and Cote d’Ivoire)
-- Rate is greater than one for the primary education rate scatter plot
+- [Addressing missing countries](https://github.com/UBC-MDS/obesity-explorer-R/issues/24)
+- [Rate is greater than one](https://github.com/UBC-MDS/obesity-explorer-R/issues/25) for the primary education rate scatter plot
+- [Smoking rate data is missing for some years](https://github.com/UBC-MDS/obesity-explorer-R/issues/26)
+- [Boostrap resizing](https://github.com/UBC-MDS/obesity-explorer-R/issues/27) of window can be buggy
 
 ## Future Improvements and Additions:
 - Improve interactivity between existing plots using R
 - Add unit tests for our plots
-- Formatting layout (reduce the size of plots)
-- Homogeneity of color usage across plots 
+- Improve layout formatting (reduce the size of plots)
 - Add country selection to the bar plot 
-- Improve plot legends/axis for readability
-- Add the radio button to show top or bottom countries for bar plot 
+- Add a radio button to show top or bottom countries for bar plot 
 - Add a tab with a table of aggregated data 
 - Continue improving the CSS design aesthetics 
 - Change default zoom of map to remove white padding
-- Convert map to leaflet plot
+- Memoizing back-end calculations for a more responsive app
+- Add an "About this Dashboard" infomation tab
