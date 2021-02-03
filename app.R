@@ -17,7 +17,15 @@ source(here::here("R", "text.R"))
 # Read-in the data
 datapath <- here::here("data", "processed", "obesity-combo.csv")
 ob <- readr::read_csv(datapath) %>%
-  filter(region != "Aggregates")
+  filter(region != "Aggregates") %>%
+  arrange(country, sex, -year) %>%
+  group_by(country, sex) %>%
+  mutate(flag_smoke = if_else(is.na(smoke), "missing", "observed")) %>%
+  fill(smoke, .direction = "updown") %>%
+  ungroup()
+  
+
+
 cypath <- here::here("data", "processed", "country-ids.csv")
 cydict <- readr::read_csv(cypath)
 a <- as.character(c(1975:2016))
@@ -160,6 +168,7 @@ app$layout(
                         style = css$dd,
                         multi = FALSE
                       ),
+                      htmlDiv(id = 'load'),
                       htmlBr()
                     )
                   )
@@ -219,6 +228,21 @@ app$callback(
     input("input_grouper", "value")
   ),
   make_scatter_plot
+)
+
+app$callback(
+  output("load", "children"),
+  list(
+    input("input_regressor", "value")
+  ),
+  function(selection){
+    if (selection == "smoke"){
+      text <- smoke_txt
+    } else {
+      text <- NULL
+    }
+    return(htmlDiv(list(dccMarkdown(text))))
+  }
 )
 
 if (Sys.getenv("DYNO") == "") {

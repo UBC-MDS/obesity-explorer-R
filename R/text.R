@@ -28,3 +28,8 @@ heart diseases, high blood pressure and certain types of cancers.
 This dashboard allows you to explore trends, probe associations, and 
 discover other patterns related to this global epidemic
 "
+
+smoke_txt <- "
+Please note that the smoke rate data has missing values and is not highly 
+reliable. 
+"
