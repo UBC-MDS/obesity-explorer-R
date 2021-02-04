@@ -125,15 +125,19 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @param .year The year input callback (integer vector)
 #' @param .income The income group callback (character vector)
 #' @param .sex The sex group callback (scalar character)
-#' @param .regressor The regressor to be used in the scatter plot (character vector)
-#' @param .grouper The attribute to be used for grouping the data in the scatter plot (character vector)
+#' @param .regressor The regressor to be used in the scatter plot (character
+#'   vector)
+#' @param .grouper The attribute to be used for grouping the data in the
+#'   scatter plot (character vector)
 #' @return A plotly object.
 #'
 #' @import ggplot2
 #' @importFrom plotly ggplotly
 #' @importFrom stringr str_glue
 #' @export
-make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex = NULL, .regressor = "smoke", .grouper = "sex") {
+make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
+                              .sex = NULL, .regressor = "smoke",
+                              .grouper = "sex") {
   # Generate a filtering string
   fltr <- list(
     region = .region, year = .year, income = .income,
@@ -141,7 +145,8 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
   )
   # Subset and aggregate data
   chosen_rate <- as.character(str_glue("{.regressor}_rate"))
-  df <- make_rate_data(c(.grouper, "country"), fltr, vals = c(.regressor, "obese")) %>%
+  df <- make_rate_data(c(.grouper, "country"), fltr, 
+                       vals = c(.regressor, "obese")) %>%
     mutate(rate = !!sym(chosen_rate))
 
   # Plot
@@ -152,9 +157,11 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
       color = !!sym(.grouper)
     )
   ) +
-    geom_point(aes(text = str_glue("Country: {country}
-                                    Obesity Rate: {scales::percent(obese_rate, 0.1)}
-                                    {create_label(.regressor)}: {scales::percent(rate, 0.1)}"))) +
+    geom_point(aes(
+      text = str_glue(
+        "Country: {country}
+         Obesity Rate: {scales::percent(obese_rate, 0.1)}
+         {create_label(.regressor)}: {scales::percent(rate, 0.1)}"))) +
     geom_smooth(se = FALSE, method = "lm") +
     labs(
       title = str_glue("Obesity Rate vs {create_label(.regressor)} ({.year})"),
@@ -173,14 +180,17 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
 #' @param .year The year input callback (integer vector)
 #' @param .year_range The year range input callback (integer vector)
 #' @param .sex The sex group callback (scalar character)
-#' @param .highlight_country The countries we want to highlight (character vector)
+#' @param .highlight_country The countries we want to highlight (character
+#'   vector)
 #'
 #' @return A plotly object.
 #' @import ggplot2
 #' @importFrom plotly ggplotly
 #' @importFrom forcats fct_reorder
 #' @export
-make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada", .year_range = list(1975, 2016)) {
+make_ts_plot <- function(.year = 2010, .sex = NULL,
+                         .highlight_country = "Canada", 
+                         .year_range = list(1975, 2016)) {
   all_years <- seq(.year_range[[1]], .year_range[[2]])
   # Generate a filtering string
   fltr <- list(year = all_years, sex = remap_sex(.sex))
