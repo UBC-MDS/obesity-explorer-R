@@ -43,7 +43,7 @@ rate <- function(x, y) {
 #' make_rate_data(grp, fltr, vals)
 make_rate_data <- function(grp, fltr, vals = "obese") {
   fltr <- purrr::discard(fltr, is.null)
-  obesitydashboard::ob %>%
+  obesityexplorer::ob %>%
     filter(across(all_of(names(fltr)), ~ . %in% fltr[[cur_column()]])) %>%
     group_by(!!!syms(grp)) %>%
     summarise(across(all_of(vals), list(rate = ~ rate(., .data$pop))),
