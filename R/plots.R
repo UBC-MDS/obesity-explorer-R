@@ -37,8 +37,11 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
       )
     )) +
     geom_col() +
-    scale_fill_viridis_c(limits = c(0, 0.5), oob = scales::squish,
-                         labels = scales::percent_format(1)) +
+    scale_fill_viridis_c(
+      limits = c(0, 0.5), oob = scales::squish,
+      labels = scales::percent_format(1),
+      breaks = seq(0, 0.4, 0.2)
+    ) +
     labs(
       title = str_glue("Top 10 Countries ({.year})"),
       x = "Obesity Rate(%)",
@@ -46,10 +49,12 @@ make_bar_plot <- function(.region, .year, .income, .sex, n = 10) {
       fill = "Obesity Rate"
     ) +
     theme_classic() +
-    theme(axis.title.y = element_blank(), 
-          plot.title = element_text(hjust = 0.5)) +
+    theme(
+      axis.title.y = element_blank(),
+      plot.title = element_text(hjust = 0.5)
+    ) +
     scale_x_continuous(labels = scales::percent_format(accuracy = 1))
-  ggplotly(p, tooltip = c("text"), height = 300)  
+  ggplotly(p, tooltip = c("text"), height = 300)
 }
 
 #' Create a Choropleth Map of Obesity Rates
@@ -83,7 +88,7 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
       "\nObesity Rate: ", scales::percent(.data$obese_rate, 1.1),
       "\nYear: ", .year
     ), across(.data$obese_rate, ~ . * 100))
-  
+
   # Margin settings
   m <- list(
     l = 70,
@@ -99,16 +104,20 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
     text = ~text_tooltip, hoverinfo = "text"
   ) %>%
     colorbar(
-      #limits = c(min(df$obese_rate, na.rm = TRUE), max(df$obese_rate)),
+      limits = c(0, 50),
       value = "percent",
-      title = "<b> Obesity Rate </b>",
+      title = "Obesity Rate",
       ticksuffix = "%",
-      x = 1, 
+      x = 1,
       y = 0.8
-    ) #%>% layout(margin = m, height = 300, title = list(text = paste0('World Obesity (', as.character(.year), ')'),
-                                                        #y = 0.9), geo = list(showframe = FALSE, showcoastlines = FALSE,
-                                                                       #projection = list(type = 'Mercator')
-                 #))
+    ) %>%
+    layout(margin = m, height = 300, title = list(
+      text = paste0("World Obesity (", as.character(.year), ")"),
+      y = 0.9
+    ), geo = list(
+      showframe = FALSE, showcoastlines = FALSE,
+      projection = list(type = "Mercator")
+    ))
 }
 
 #' Create a Scatter Map of Obesity Rates vs. Other Variables
@@ -119,8 +128,8 @@ make_choropleth_plot <- function(.region = NULL, .year = NULL, .income = NULL,
 #' @param .regressor The regressor to be used in the scatter plot (character vector)
 #' @param .grouper The attribute to be used for grouping the data in the scatter plot (character vector)
 #' @return A plotly object.
-#' 
-#' @import ggplot2 
+#'
+#' @import ggplot2
 #' @importFrom plotly ggplotly
 #' @importFrom stringr str_glue
 #' @export
@@ -167,7 +176,7 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL, .sex
 #' @param .highlight_country The countries we want to highlight (character vector)
 #'
 #' @return A plotly object.
-#' @import ggplot2 
+#' @import ggplot2
 #' @importFrom plotly ggplotly
 #' @importFrom forcats fct_reorder
 #' @export
@@ -186,8 +195,10 @@ make_ts_plot <- function(.year = 2010, .sex = NULL, .highlight_country = "Canada
 
 
   # Create subtitle
-  sub <- paste0(as.character(min(all_years)), "-",
-                as.character(max(all_years)))
+  sub <- paste0(
+    as.character(min(all_years)), "-",
+    as.character(max(all_years))
+  )
 
   # Make time series plot
   ts_plot <- df %>%
