@@ -111,18 +111,45 @@ app$layout(
                                 id = "bar_plot",
                                 config = list("displayModeBar" = FALSE)
                               ),
-                              dbcLabel("Select Ranking:"),
-                              dccRadioItems(
-                                id = "input_rank",
-                                options = list(
-                                  list(label = "Top", value = "TRUE"),
-                                  list(label = "Bottom", value = "FALSE")
-                                ),
-                                css$dd,
-                                labelStyle = list("display" = "inline-block"),
-                                inputStyle = css$radio_buttons,
-                                value = "TRUE"
+                              htmlHr(),
+                              dbcRow(
+                                justify = "center",
+                                list(
+                                  dbcCol(
+                                    list(
+                                      dbcLabel("Select Number:"),
+                                      dbcInput(
+                                        id = "input_n",
+                                        type = "number",
+                                        placeholder = "number",
+                                        style = list(width = "150px"),
+                                        value = 10,
+                                        min = 5,
+                                        max = 20
+                                      )
+                                    ),
+                                    md = 3
+                                  ),
+                                  dbcCol(
+                                    list(
+                                      dbcLabel("Select Ranking:"),
+                                      dccRadioItems(
+                                        id = "input_rank",
+                                        options = list(
+                                          list(label = "Top", value = "TRUE"),
+                                          list(label = "Bottom", value = "FALSE")
+                                        ),
+                                        css$dd,
+                                        labelStyle = list("display" = "inline-block"),
+                                        inputStyle = css$radio_buttons,
+                                        value = "TRUE"
+                                      )
+                                    ), 
+                                    md = 3
+                                  )
+                                )
                               )
+                      
                             )
 
                           )
@@ -246,7 +273,8 @@ app$callback(
     input("input_year", "value"),
     input("input_income", "value"),
     input("input_sex", "value"),
-    input("input_rank", "value")
+    input("input_rank", "value"),
+    input("input_n", "value")
   ),
   memoise::memoize(make_bar_plot)
 )
