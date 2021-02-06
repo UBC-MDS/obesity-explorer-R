@@ -20,3 +20,17 @@ test_that("make_rate_data() must return a dataframe", {
   dtypes <- c("character", "numeric")
   checkmate::expect_data_frame(res, types = dtypes)
 })
+
+test_that("create_label() must work", {
+  expect_equal(create_label("obese_rate"), "Obesity Rate")
+  expect_equal(create_label("smoke_rate"), "Smoking Rate")
+  expect_equal(create_label("smoke"), "Smoking Rate")
+  expect_equal(create_label("income"), "Income Level")
+  expect_equal(create_label("literacy"), "Adult Literacy Rate")
+  expect_equal(create_label("primedu"), "Primary Education Rate")
+  expect_equal(create_label("region"), "Region")
+  expect_equal(create_label("unemployed"), "Unemployment Rate")
+  expect_equal(create_label("country"), "Country")
+  expect_equal(create_label("none"), "")
+  expect_equal(create_label("sex"), "Sex")
+})
