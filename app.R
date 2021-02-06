@@ -169,7 +169,7 @@ app$layout(
                                 id = "ts_plot",
                                 config = list("displayModeBar" = FALSE)
                               ),
-                              htmlBr(),
+                              htmlHr(),
                               dbcLabel("Select Year Range:"),
                               dccRangeSlider(
                                 id = "input_year_range",
@@ -210,7 +210,7 @@ app$layout(
                                 id = "scatter_plot",
                                 config = list("displayModeBar" = FALSE)
                               ),
-                              htmlBr(),
+                              htmlHr(),
                               dbcLabel("Select Coloring Variable: "),
                               dccDropdown(
                                 id = "input_grouper",
