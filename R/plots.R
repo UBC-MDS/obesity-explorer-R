@@ -48,7 +48,7 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
     ) +
     labs(
       title = str_glue("Top 10 Countries ({.year})"),
-      x = "Obesity Rate(%)",
+      x = "Obesity Rate (%)",
       y = NULL,
       fill = "Obesity Rate"
     ) +
@@ -58,7 +58,7 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       plot.title = element_text(hjust = 0.5)
     ) +
     scale_x_continuous(labels = scales::percent_format(accuracy = 1))
-  ggplotly(p, tooltip = "text", height = 300) %>% 
+  ggplotly(p, tooltip = "text", height = 300) %>%
     layout(font = custom_css()$plotly)
 }
 
@@ -188,9 +188,8 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
     )) +
     geom_smooth(se = FALSE, method = "lm", formula = y ~ x, size = 0.75) +
     labs(
-      title = str_glue("Obesity Rate vs {create_label(.regressor)} ({.year})"),
-      x = str_glue("{create_label(.regressor)}"),
-      y = "Obesity Rate",
+      x = str_glue("{create_label(.regressor)} (%)"),
+      y = "Obesity Rate (%)",
       color = create_label(.grouper)
     ) +
     scale_x_continuous(labels = scales::percent_format(1)) +
@@ -198,7 +197,18 @@ make_scatter_plot <- function(.region = NULL, .year = NULL, .income = NULL,
     ggthemes::scale_color_tableau() +
     theme_bw()
   ggplotly(p, tooltip = "text") %>%
-    layout(font = custom_css()$plotly)
+    layout(
+      title = list(
+        text = str_glue("Obesity Rate vs {create_label(.regressor)} ({.year})"),
+        xanchor = "center",
+        x = 0.5,
+        y = 40,
+        yanchor = "bottom",
+        yref = "paper"
+      ),
+      margin = list(t = 70),
+      font = custom_css()$plotly
+    )
 }
 
 #' Create a Time Series of Obesity Rates
