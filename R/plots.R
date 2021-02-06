@@ -6,7 +6,7 @@
 #' @param .sex The sex group callback (scalar character)
 #' @param .ascending a logical indicating the selection for top or bottom for
 #'   the country rankings. Also accepts a character. Defaults to TRUE.
-#' @param n a scalar representing the number of countries to chart.
+#' @param .n a scalar representing the number of countries to chart.
 #'
 #'
 #' @import ggplot2
@@ -69,7 +69,8 @@ make_bar_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       axis.title.y = element_blank(),
       plot.title = element_text(hjust = 0.5)
     ) +
-    scale_x_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, 0.5))
+    scale_x_continuous(labels = scales::percent_format(accuracy = 1), 
+                       limits = c(0, 0.5))
   ggplotly(p, tooltip = "text", height = 300) %>%
     layout(font = custom_css()$plotly)
 }

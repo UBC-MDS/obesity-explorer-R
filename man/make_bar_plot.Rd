@@ -25,7 +25,7 @@ make_bar_plot(
 \item{.ascending}{a logical indicating the selection for top or bottom for
 the country rankings. Also accepts a character. Defaults to TRUE.}
 
-\item{n}{a scalar representing the number of countries to chart.}
+\item{.n}{a scalar representing the number of countries to chart.}
 }
 \value{
 A plotly object.
