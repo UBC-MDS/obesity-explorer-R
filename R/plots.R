@@ -129,7 +129,8 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       showland = TRUE,
       showframe = FALSE,
       showcoastlines = FALSE,
-      projection = list(type = "geoMercator")
+      projection = list(type = "geoMercator"),
+      lataxis = list(range = list(-55, 90))
     ))
 }
 
