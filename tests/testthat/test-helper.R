@@ -34,3 +34,8 @@ test_that("create_label() must work", {
   expect_equal(create_label("none"), "")
   expect_equal(create_label("sex"), "Sex")
 })
+
+test_that("make_bar_plot() must accept .ascending as logical or character", {
+  expect_error(make_bar_plot(.ascending = TRUE), NA)
+  expect_error(make_bar_plot(.ascending = "TRUE"), NA)
+})

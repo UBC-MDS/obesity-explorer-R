@@ -45,7 +45,7 @@ app$layout(
                 ),
                 css$dd,
                 labelStyle = list("display" = "inline-block"),
-                inputStyle = list("margin-left" = "20px"),
+                inputStyle = css$radio_buttons,
                 value = "Both"
               ),
               htmlBr(),
@@ -106,10 +106,25 @@ app$layout(
                       dbcCard(
                         list(
                           dbcCardBody(
-                            dccGraph(
-                              id = "bar_plot",
-                              config = list("displayModeBar" = FALSE)
+                            list(
+                              dccGraph(
+                                id = "bar_plot",
+                                config = list("displayModeBar" = FALSE)
+                              ),
+                              dbcLabel("Select Ranking:"),
+                              dccRadioItems(
+                                id = "input_rank",
+                                options = list(
+                                  list(label = "Top", value = "TRUE"),
+                                  list(label = "Bottom", value = "FALSE")
+                                ),
+                                css$dd,
+                                labelStyle = list("display" = "inline-block"),
+                                inputStyle = css$radio_buttons,
+                                value = "TRUE"
+                              )
                             )
+
                           )
                         )
                       )
@@ -230,7 +245,8 @@ app$callback(
     input("input_region", "value"),
     input("input_year", "value"),
     input("input_income", "value"),
-    input("input_sex", "value")
+    input("input_sex", "value"),
+    input("input_rank", "value")
   ),
   memoise::memoize(make_bar_plot)
 )

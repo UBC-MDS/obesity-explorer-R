@@ -155,6 +155,12 @@ custom_css <- function() {
     "Arial"
   ))
 
+  # radio-buttons
+  css$radio_buttons <- list(
+    "margin-left" = "10px",
+    "margin-right" = "5px"
+  )
+
   # Return CSS
   css
 }
