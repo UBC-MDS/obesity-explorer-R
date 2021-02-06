@@ -124,8 +124,12 @@ make_choropleth_plot <- function(.region = NULL, .year = 2016, .income = NULL,
       text = paste0("World Obesity (", as.character(.year), ")"),
       y = 0.9
     ), geo = list(
-      showframe = FALSE, showcoastlines = FALSE,
-      projection = list(type = "Mercator")
+      landcolor = "lightgray",
+      showcountries = TRUE, 
+      showland = TRUE,
+      showframe = FALSE,
+      showcoastlines = FALSE,
+      projection = list(type = "geoMercator")
     ))
 }
 
